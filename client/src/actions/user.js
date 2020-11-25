@@ -114,7 +114,7 @@ export const activation = (token) => async (dispatch) => {
       `${URL}/api/user/activate/${token}`
     );
 
-    console.log(res.data);
+    console.log(res);
 
     dispatch({ type: types.USER_ACTIVATION_SUCCESS, payload: res.data });
   } catch (error) {

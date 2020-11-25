@@ -162,7 +162,7 @@ const activate = async (req, res) => {
             }
 
             if (user.isVerified) {
-              return res.status(400).json({
+              return res.status(200).json({
                 message: "This user has already been verified. Please log in.",
                 user,
               });

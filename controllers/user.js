@@ -28,7 +28,7 @@ const register = async (req, res) => {
     if (user) {
       return res
         .status(400)
-        .json({ message: "Username or Email already exists" });
+        .json({ message: "Username already exists" });
     }
 
     user = await User.findOne({ email });
@@ -36,7 +36,7 @@ const register = async (req, res) => {
     if (user) {
       return res
         .status(400)
-        .json({ message: "Username or Email already exists" });
+        .json({ message: "Email already exists" });
     }
 
     const newUser = new User({ username, email, avatar, password });

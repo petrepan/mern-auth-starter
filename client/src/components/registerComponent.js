@@ -61,7 +61,7 @@ const RegisterComponent = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
-                {error && error.username && <div>Username field is invalid</div>}
+                {error && error.username && <div>{error.username}</div>}
               </div>
               <div className="field">
                 <label htmlFor="email">Email</label>
@@ -74,7 +74,7 @@ const RegisterComponent = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                {error && error.email && <div>Email field is invalid</div>}
+                {error && error.email && <div>{error.email}</div>}
               </div>
               <div className="field">
                 <label htmlFor="password">Password</label>
@@ -88,7 +88,7 @@ const RegisterComponent = () => {
                   required
                 />
                 {error && error.password && (
-                  <div>Password field should be atleast five characters</div>
+                  <div>{error.password}</div>
                 )}
               </div>
               <button type="submit">Signup</button> {loading && <Loader />}

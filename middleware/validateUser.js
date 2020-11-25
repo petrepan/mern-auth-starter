@@ -24,7 +24,7 @@ const validateInput = (data) => {
   if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
   } else if (!Validator.isLength(data.password, { min: 5 })) {
-    errors.email = "Password must be at least 5 characters";
+    errors.password = "Password must be at least 5 characters";
   }
 
   return {
@@ -47,7 +47,7 @@ const validateLoginInput = (data) => {
   if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
   } else if (!Validator.isLength(data.password, { min: 5 })) {
-    errors.email = "Password must be at least 5 characters";
+    errors.password = "Password must be at least 5 characters";
   }
 
   return {
@@ -84,7 +84,7 @@ const validatePassword = (data) => {
   if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
   } else if (!Validator.isLength(data.password, { min: 5 })) {
-    errors.email = "Password must be at least 5 characters";
+    errors.password = "Password must be at least 5 characters";
   }
 
   return {

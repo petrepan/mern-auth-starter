@@ -1,46 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register, resend } from "../actions/user";
+import { register, resend, reset } from "../actions/user";
 import Loader from "./Loader";
 
-const RegisterComponent = () => {
+const RegisterComponent = ({history}) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
-  const [errorMsg, setErrorMsg] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
   const [registerStep, setRegisterStep] = useState("register");
 
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
+  const userResend = useSelector((state) => state.userResend);
   const { loading, error, userInfo, regsuccess } = userRegister;
-
-  console.log(regsuccess);
+  const { resetsuccess } = userResend;
 
   useEffect(() => {
     if (regsuccess) {
       setRegisterStep("resend");
     }
-  }, [regsuccess]);
+
+    if (resetsuccess) {
+      setRegisterStep("reset");
+    }
+
+    if (!resetsuccess && !regsuccess) {
+      setRegisterStep("register")
+    }
+  }, [regsuccess, resetsuccess]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-      dispatch(register(username, email, password));
+    dispatch(register(username, email, password));
   };
 
   const resendEmail = (e) => {
     e.preventDefault();
     dispatch(resend(email));
-    setRegisterStep("reset");
   };
 
-  const resetAccount = () => {};
+  const resetAccount = (e) => {
+    e.preventDefault();
+    dispatch(reset(email));
+    setEmail("")
+    setUsername("")
+    setPassword("")
+    history.push("/register")
+  };
 
   function renderSwitch() {
     switch (registerStep) {
@@ -87,9 +96,7 @@ const RegisterComponent = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                {error && error.password && (
-                  <div>{error.password}</div>
-                )}
+                {error && error.password && <div>{error.password}</div>}
               </div>
               <button type="submit">Signup</button> {loading && <Loader />}
               {message && <div>{message}</div>}
@@ -107,7 +114,8 @@ const RegisterComponent = () => {
             </p>
             <button onClick={resendEmail}>
               Did not receive the email? Click here to send again.
-            </button>
+            </button>{" "}
+            {loading && <Loader />}
             {message && <div>{message}</div>}
           </div>
         );
@@ -124,6 +132,7 @@ const RegisterComponent = () => {
             <button onClick={resetAccount}>
               Click here to reset the registration
             </button>
+            {loading && <Loader />}
             {message && <div>{message}</div>}
           </div>
         );

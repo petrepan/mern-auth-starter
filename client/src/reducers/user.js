@@ -28,6 +28,19 @@ export const register = (state = {}, action) => {
   }
 };
 
+export const resend = (state = {}, action) => {
+  switch (action.type) {
+    case types.USER_RESEND_REQUEST:
+      return { loading: true };
+    case types.USER_RESEND_SUCCESS:
+      return { loading: false, userInfo: action.payload, resetsuccess: true };
+    case types.USER_RESEND_FAIL:
+      return { loading: false, error: action.payload, resetsuccess: false };
+    default:
+      return state;
+  }
+};
+
 export const activate = (state = {}, action) => {
   switch (action.type) {
     case types.USER_ACTIVATION_REQUEST:

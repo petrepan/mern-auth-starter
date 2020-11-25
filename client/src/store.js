@@ -1,10 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { register } from "./reducers/user";
+import { register, resend, activate } from "./reducers/user";
 
 const reducer = combineReducers({
-    userRegister: register
+    userRegister: register,
+    userResend: resend,
+    userActivation: activate
 });
 
 const middleware = [thunk];

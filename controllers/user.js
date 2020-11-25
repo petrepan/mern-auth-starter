@@ -26,17 +26,13 @@ const register = async (req, res) => {
     let user = await User.findOne({ username });
 
     if (user) {
-      return res
-        .status(400)
-        .json({ message: "Username already exists" });
+      return res.status(400).json({ username: "Username already exists" });
     }
 
     user = await User.findOne({ email });
 
     if (user) {
-      return res
-        .status(400)
-        .json({ message: "Email already exists" });
+      return res.status(400).json({ email: "Email already exists" });
     }
 
     const newUser = new User({ username, email, avatar, password });
@@ -128,7 +124,9 @@ const registerreset = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: "User not found or Activation successful" });
+      return res
+        .status(400)
+        .json({ message: "User not found or Activation successful" });
     }
 
     return res.status(200).json({ message: "User reset successful" });
@@ -166,6 +164,7 @@ const activate = async (req, res) => {
             if (user.isVerified) {
               return res.status(400).json({
                 message: "This user has already been verified. Please log in.",
+                user,
               });
             }
 

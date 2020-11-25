@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loader {
+  display: inline-block;
+  width: 20px;
+  height: 4px;
+  background: #0d24d5;
+  -webkit-animation: loader 3.5s linear infinite;
+  animation: loader 3.5s linear infinite;
+}
+
+
+@keyframes loader {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(720deg);
+  }
+}
+
+@-webkit-keyframes loader {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(720deg);
+  }
+}

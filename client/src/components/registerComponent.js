@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/user";
+import Loader from "./Loader"
 
 const RegisterComponent = () => {
   const [username, setUsername] = useState("");

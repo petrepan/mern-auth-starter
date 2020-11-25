@@ -64,7 +64,76 @@ const register = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error });
+  }
+};
+
+const resend = async (req, res) => {
+  const { errors, isValid } = validateEmail(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const { email } = req.body;
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "We were unable to find a user with that email." });
+    }
+
+    if (user.isVerified)
+      return res.status(400).send({
+        message: "This account has already been verified. Please log in.",
+      });
+
+    const token = generateToken(user._id);
+
+    const mail = {
+      from: process.env.EMAIL_FROM,
+      to: email,
+      subject: "Account activation link",
+      html: `  <h1 style="color:#fff; background-color:green; text-align:center;">User Verification</h1>
+                <h1>Please click the link to activate your account</h1>
+               <a href="${process.env.CLIENT_URL}/user/activate/${token}">${process.env.CLIENT_URL}/user/activate/${token}</a>
+            `,
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    const sendEmail = await sgMail.send(mail);
+
+    return res.status(200).json({
+      message: `A verification mail has been sent to ${email}`,
+      token,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+const registerreset = async (req, res) => {
+  const { errors, isValid } = validateEmail(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  try {
+    const user = await User.findOneAndDelete({
+      email: req.body.email,
+      isVerified: false,
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found or Activation successful" });
+    }
+
+    return res.status(200).json({ message: "User reset successful" });
+  } catch (error) {
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -120,7 +189,7 @@ const activate = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -159,7 +228,7 @@ const login = async (req, res) => {
       user: finduser,
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -210,7 +279,7 @@ const forgot = async (req, res) => {
   }
 };
 
-const reset = async (req, res) => {
+const passwordreset = async (req, res) => {
   const { errors, isValid } = validatePassword(req.body);
 
   if (!isValid) {
@@ -230,7 +299,7 @@ const reset = async (req, res) => {
         .status(400)
         .json({ message: "Password reset token is invalid or has expired." });
     } else {
-      user.password = password
+      user.password = password;
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
 
@@ -239,13 +308,23 @@ const reset = async (req, res) => {
       user.password = hashPassword;
 
       // eslint-disable-next-line no-unused-vars
-      const savedUser = await user.save()
+      const savedUser = await user.save();
 
-      return res.status(200).json({message: "Your password has been updated"})
+      return res
+        .status(200)
+        .json({ message: "Your password has been updated" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error });
   }
 };
 
-module.exports = { register, activate, login, forgot, reset };
+module.exports = {
+  register,
+  activate,
+  resend,
+  registerreset,
+  login,
+  forgot,
+  passwordreset,
+};

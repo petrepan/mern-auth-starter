@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../actions/user";
-import Loader from "./Loader"
+import { register, resend } from "../actions/user";
+import Loader from "./Loader";
 
 const RegisterComponent = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
-  const [errorMsg, setErrorMsg] = useState({ username: "", email: "", password: "" });
+  const [errorMsg, setErrorMsg] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [registerStep, setRegisterStep] = useState("register");
 
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo } = userRegister;
+  const { loading, error, userInfo, regsuccess } = userRegister;
+
+  console.log(regsuccess);
+
+  useEffect(() => {
+    if (regsuccess) {
+      setRegisterStep("resend");
+    }
+  }, [regsuccess]);
 
   const onSubmit = (e) => {
-    e.preventDefault()
-    dispatch(register(username, email, password));
+    e.preventDefault();
+      dispatch(register(username, email, password));
   };
 
-  const resendEmail = () => {};
+  const resendEmail = (e) => {
+    e.preventDefault();
+    dispatch(resend(email));
+    setRegisterStep("reset");
+  };
 
   const resetAccount = () => {};
 
@@ -31,6 +47,8 @@ const RegisterComponent = () => {
       case "register":
         return (
           <div className="container">
+            <h1>Sign Up</h1>
+            {error && <div className={error}>{error.message}</div>}
             <form onSubmit={onSubmit} className="form">
               <div className="field">
                 <label htmlFor="username">Username</label>
@@ -41,7 +59,9 @@ const RegisterComponent = () => {
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
+                {error && error.username && <div>Username field is invalid</div>}
               </div>
               <div className="field">
                 <label htmlFor="email">Email</label>
@@ -52,7 +72,9 @@ const RegisterComponent = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
+                {error && error.email && <div>Email field is invalid</div>}
               </div>
               <div className="field">
                 <label htmlFor="password">Password</label>
@@ -63,9 +85,13 @@ const RegisterComponent = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
+                {error && error.password && (
+                  <div>Password field should be atleast five characters</div>
+                )}
               </div>
-              <button type="submit">Signup</button>
+              <button type="submit">Signup</button> {loading && <Loader />}
               {message && <div>{message}</div>}
             </form>
           </div>
@@ -106,11 +132,7 @@ const RegisterComponent = () => {
     }
   }
 
-  return (
-    <div>
-      {renderSwitch()}
-    </div>
-  );
+  return <div>{renderSwitch()}</div>;
 };
 
 export default RegisterComponent;

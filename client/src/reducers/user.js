@@ -20,9 +20,9 @@ export const register = (state = {}, action) => {
     case types.USER_REGISTER_REQUEST:
       return { loading: true };
     case types.USER_REGISTER_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, userInfo: action.payload, regsuccess: true };
     case types.USER_REGISTER_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload, regsuccess: false };
     default:
       return state;
   }

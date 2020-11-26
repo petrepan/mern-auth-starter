@@ -319,7 +319,7 @@ const passwordreset = async (req, res) => {
 };
 
 const getuser = async (req, res) => {
-  const username = req.params.username;
+  const username = req.params.username
 
   try {
     const user = await User.findOne({ username }).select("-password");

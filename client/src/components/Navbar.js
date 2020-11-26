@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/user";
 
 const Navbar = () => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  console.log(userInfo);
+
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       dispatch(logout());
@@ -18,15 +20,15 @@ const Navbar = () => {
     <nav>
       <Link to="/">Mern-Auth</Link>
       <div>
-        {!userInfo && !localStorage.getItem("userInfo") ? (
+        {!userInfo ? (
           <div>
             <Link to="/user/login">Login</Link>
             <Link to="/user/register">Register</Link>
           </div>
         ) : (
-                      <div className="navlinks">
-                          welcome
-            <Link to={`/profile/${user.username}`}>{user.avatar}</Link>
+          <div className="navlinks">
+            welcome
+            <Link to={`/profile/${userInfo.user.username}`}>{userInfo.user.avatar}</Link>
             <button onClick={handleLogout}>Logout</button>
           </div>
         )}

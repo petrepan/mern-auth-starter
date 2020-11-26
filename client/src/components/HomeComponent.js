@@ -1,25 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resend } from "../actions/user";
 import Loader from "../components/Loader";
 
 const HomeComponent = () => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const [hide, setHide] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHide(hide);
+    }, 3000);
+
+    // return () => {
+    //     cleanup
+    // }
+  }, [hide]);
+
   const dispatch = useDispatch();
 
   const userResend = useSelector((state) => state.userResend);
-  const { loading, error, userInfo } = userResend;
+  const { loading, error } = userResend;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const resendEmail = (e) => {
     e.preventDefault();
-    dispatch(resend(user.email));
+    dispatch(resend(userInfo.user.email));
   };
 
   return (
-    <div className="container">
-      {userInfo && <div className="dbmsg">{userInfo.message}</div>}
+    <div className="container"> 
       {error && <div className="dbmsg">{error.message}</div>}
-      {user && user.isVerified && (
+      {userInfo && !userInfo.user.isVerified && (
         <p>
           Having trouble with activation? <br />
           P.S: Your activities will be limited cos youve not been verified

@@ -1,4 +1,4 @@
-import * as types from "../actions/types"
+import * as types from "../actions/types";
 
 export const login = (state = {}, action) => {
   switch (action.type) {
@@ -67,12 +67,12 @@ export const forgot = (state = {}, action) => {
   }
 };
 
-export const userdetails = (state = {}, action) => {
+export const userdetails = (state = { user: {} }, action) => {
   switch (action.type) {
     case types.USER_DETAILS_REQUEST:
       return { ...state, loading: true };
     case types.USER_DETAILS_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, user: action.payload };
     case types.USER_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     default:

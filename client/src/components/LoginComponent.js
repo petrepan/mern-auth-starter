@@ -18,7 +18,6 @@ const LoginComponent = ({ history }) => {
       history.push("/");
     }
   }, [userInfo, history]);
-  console.log(userInfo); 
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login(user, password));
@@ -60,8 +59,8 @@ const LoginComponent = ({ history }) => {
           )}
         </div>
         <button type="submit">Login {loading && <Loader />}</button>
-          </form>
-          No account yet? <Link to="/register">register</Link>
+      </form>
+      No account yet? <Link to="/register">register</Link>
     </div>
   );
 };

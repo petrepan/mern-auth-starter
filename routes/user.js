@@ -9,6 +9,6 @@ router.get("/activate/:token", activate);
 router.post("/login", login);
 router.post("/login/forgot", forgot);
 router.post("/login/reset/:token", passwordreset)
-router.get("/:username", auth, getuser);
+router.get("/profile", auth, getuser);
 
 module.exports = router;

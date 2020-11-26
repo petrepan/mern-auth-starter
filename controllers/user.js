@@ -319,10 +319,9 @@ const passwordreset = async (req, res) => {
 };
 
 const getuser = async (req, res) => {
-  const username = req.params.username
 
   try {
-    const user = await User.findOne({ username }).select("-password");
+    const user = await User.findById(req.user._id).select("-password");
 
     if (!user) {
       return res.status(400).json({ message: "User not found" });

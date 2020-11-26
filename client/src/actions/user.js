@@ -1,5 +1,4 @@
 import axios from "axios";
-import axiosAuth from "../helper/axiosWithAuth";
 import * as types from "../actions/types";
 
 const URL = "https://mern-auth-starter.herokuapp.com";
@@ -141,8 +140,7 @@ export const login = (user, password) => async (dispatch) => {
     );
 
     dispatch({ type: types.USER_LOGIN_SUCCESS, payload: res.data });
-    localStorage.setItem("token", JSON.stringify(res.data.token));
-    localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+    localStorage.setItem("userInfo", JSON.stringify(res.data));
   } catch (error) {
     dispatch({
       type: types.USER_LOGIN_FAIL,
@@ -218,16 +216,24 @@ export const logout = () => (dispatch) => {
   dispatch({ type: types.USER_LOGOUT });
 };
 
-export const getuserdetails = (username) => async (dispatch, getState) => {
+export const getuserdetails = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: types.USER_DETAILS_REQUEST,
     });
 
-    const res = await axiosAuth().get(`${URL}/api/user/${username}`);
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const res = await axios.get(`${URL}/api/user/profile`, config);
     dispatch({ type: types.USER_DETAILS_SUCCESS, payload: res.data });
-    localStorage.setItem("userInfo", JSON.stringify(res.data));
   } catch (error) {
     dispatch({
       type: types.USER_DETAILS_FAIL,
@@ -236,7 +242,6 @@ export const getuserdetails = (username) => async (dispatch, getState) => {
     console.log(error.response);
   }
 };
-
 
 export const updateuser = (username, email, password) => async (dispatch) => {
   try {

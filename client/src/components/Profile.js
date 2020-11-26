@@ -3,25 +3,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { getuserdetails, updateuser } from "../actions/user";
 import Loader from "./Loader";
 
-const Profile = ({ match }) => {
+const Profile = ({ match, history }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const paramsusername = match.params.username;
-
   const dispatch = useDispatch();
-  const userDetails = useSelector((state) => state.userDetails);
-  const { userInfo } = userDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+    
+    console.log(userLogin)
+  
   const userUpdate = useSelector((state) => state.userUpdate);
   const { loading, error } = userUpdate;
-  useEffect(() => {
-    dispatch(getuserdetails(paramsusername));
-  }, [dispatch, userInfo, paramsusername]);
 
-    const onSubmit = () => {
-      dispatch(updateuser())
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/");
+    }
+  }, [userInfo, history]);
+
+  useEffect(() => {
+    dispatch(getuserdetails());
+  }, [dispatch, userInfo ]);
+
+  const onSubmit = () => {
+    dispatch(updateuser());
   };
 
   return (

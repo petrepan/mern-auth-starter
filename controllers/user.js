@@ -83,7 +83,7 @@ const resend = async (req, res) => {
 
     if (user.isVerified)
       return res.status(400).send({
-        message: "This account has already been verified. Please log in.",
+        message: "This account has already been verified.",
       });
 
     const token = generateToken(user._id);
@@ -162,8 +162,8 @@ const activate = async (req, res) => {
             }
 
             if (user.isVerified) {
-              return res.status(200).json({
-                message: "This user has already been verified. Please log in.",
+              return res.status(400).json({
+                message: "This user has already been verified.",
                 user,
               });
             }
@@ -179,7 +179,7 @@ const activate = async (req, res) => {
               }
 
               return res.status(200).json({
-                message: "The account has been verified. Please log in.",
+                message: "The account has been verified successfully.",
                 user,
               });
             });
@@ -259,9 +259,9 @@ const forgot = async (req, res) => {
     const mail = {
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: "Account activation link",
-      html: `  <h1 style="color:#fff; background-color:green; text-align:center;">Paassword reset</h1>
-                <h1>You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n Please click on the following link, or paste this into your browser to complete the process. \n\n If you did not request this, please ignore this phone and your password will remain unchanged.\n</h1>
+      subject: "Password reset link",
+      html: `  <h5 style="color:#fff; background-color:green; text-align:center;">Paassword reset</h5>
+                <p>You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n Please click on the following link, or paste this into your browser to complete the process. \n\n If you did not request this, please ignore this phone and your password will remain unchanged.\n</p>
                <a href="${process.env.CLIENT_URL}/user/newpassword/${saveUser.resetPasswordToken}">${process.env.CLIENT_URL}/user/newpassword/${saveUser.resetPasswordToken}</a>
             `,
     };
@@ -318,6 +318,22 @@ const passwordreset = async (req, res) => {
   }
 };
 
+const getuser = async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({ username }).select("-password");
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
+
 module.exports = {
   register,
   activate,
@@ -326,4 +342,5 @@ module.exports = {
   login,
   forgot,
   passwordreset,
+  getuser,
 };

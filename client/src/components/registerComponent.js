@@ -4,19 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { register, resend, reset } from "../actions/user";
 import Loader from "./Loader";
 
-const RegisterComponent = ({history}) => {
+const RegisterComponent = ({ history }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(null);
   const [registerStep, setRegisterStep] = useState("register");
-
+ 
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
   const userResend = useSelector((state) => state.userResend);
   const { loading, error, userInfo, regsuccess } = userRegister;
   const { resetsuccess } = userResend;
+
+  useEffect(() => {
+    if (localStorage.getItem("userInfo")) {
+      history.push("/");
+    }
+  }, [userInfo, history]);
 
   useEffect(() => {
     if (regsuccess) {
@@ -28,7 +33,7 @@ const RegisterComponent = ({history}) => {
     }
 
     if (!resetsuccess && !regsuccess) {
-      setRegisterStep("register")
+      setRegisterStep("register");
     }
   }, [regsuccess, resetsuccess]);
 
@@ -45,10 +50,10 @@ const RegisterComponent = ({history}) => {
   const resetAccount = (e) => {
     e.preventDefault();
     dispatch(reset(email));
-    setEmail("")
-    setUsername("")
-    setPassword("")
-    history.push("/register")
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    history.push("/register");
   };
 
   function renderSwitch() {
@@ -56,8 +61,8 @@ const RegisterComponent = ({history}) => {
       case "register":
         return (
           <div className="container">
-            <h1>Sign Up</h1>
-            {error && <div className={error}>{error.message}</div>}
+            <h1>Register for a new account</h1>
+            {error && <div className="dbmsg">{error.message}</div>}
             <form onSubmit={onSubmit} className="form">
               <div className="field">
                 <label htmlFor="username">Username</label>
@@ -70,7 +75,9 @@ const RegisterComponent = ({history}) => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
-                {error && error.username && <div>{error.username}</div>}
+                {error && error.username && (
+                  <div className="validatemsg">{error.username}</div>
+                )}
               </div>
               <div className="field">
                 <label htmlFor="email">Email</label>
@@ -83,7 +90,9 @@ const RegisterComponent = ({history}) => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                {error && error.email && <div>{error.email}</div>}
+                {error && error.email && (
+                  <div className="validatemsg">{error.email}</div>
+                )}
               </div>
               <div className="field">
                 <label htmlFor="password">Password</label>
@@ -96,33 +105,34 @@ const RegisterComponent = ({history}) => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                {error && error.password && <div>{error.password}</div>}
+                {error && error.password && (
+                  <div className="validatemsg">{error.password}</div>
+                )}
               </div>
-              <button type="submit">Signup</button> {loading && <Loader />}
-              {message && <div>{message}</div>}
+              <button type="submit">Signup {loading && <Loader />}</button>
             </form>
+            have an account? <Link to="/login">login</Link>
           </div>
         );
       case "resend":
         return (
           <div className="container">
+            {userResend && <div className="dbmsg">{userResend.error.message}</div>}
             <p>A verification email has been sent.</p>
             <p>Check you mailbox : {email}.</p>
-            <p>
-              You have 12 hours to activate your account. It can take up to 15
-              min to receive our email.
-            </p>
+            <p>Activate your account to get full control of your account</p>
             <button onClick={resendEmail}>
               Did not receive the email? Click here to send again.
+              {loading && <Loader />}
             </button>{" "}
-            {loading && <Loader />}
-            {message && <div>{message}</div>}
+            have an account? <Link to="/login">login</Link>
           </div>
         );
 
       case "reset":
         return (
           <div className="container">
+            {error && <div className="dbmsg">{error.message}</div>}
             <p>Still not received an email? </p>
             <p>Try to register again. You may have given the wrong email. </p>
             <p>
@@ -131,9 +141,9 @@ const RegisterComponent = ({history}) => {
             </p>
             <button onClick={resetAccount}>
               Click here to reset the registration
+              {loading && <Loader />} 
             </button>
-            {loading && <Loader />}
-            {message && <div>{message}</div>}
+            have an account? <Link to="/login">login</Link>
           </div>
         );
       default:
@@ -141,7 +151,8 @@ const RegisterComponent = ({history}) => {
     }
   }
 
-  return <div>{renderSwitch()}</div>;
+  return <div>{renderSwitch()}
+  </div>;
 };
 
 export default RegisterComponent;

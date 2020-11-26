@@ -53,3 +53,42 @@ export const activate = (state = {}, action) => {
       return state;
   }
 };
+
+export const forgot = (state = {}, action) => {
+  switch (action.type) {
+    case types.USER_PASSWORD_REQUEST:
+      return { loading: true };
+    case types.USER_PASSWORD_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+    case types.USER_PASSWORD_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userdetails = (state = {}, action) => {
+  switch (action.type) {
+    case types.USER_DETAILS_REQUEST:
+      return { ...state, loading: true };
+    case types.USER_DETAILS_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+    case types.USER_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userupdate = (state = {}, action) => {
+  switch (action.type) {
+    case types.USER_UPDATE_REQUEST:
+      return { ...state, loading: true };
+    case types.USER_UPDATE_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+    case types.USER_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

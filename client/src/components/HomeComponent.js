@@ -30,10 +30,11 @@ const HomeComponent = () => {
   };
 
   return (
-    <div className="container"> 
+    <div className="container">
       {error && <div className="dbmsg">{error.message}</div>}
       {userInfo && !userInfo.user.isVerified && (
         <p>
+          This account is yet activated <br />
           Having trouble with activation? <br />
           P.S: Your activities will be limited cos youve not been verified
           {loading && <Loader />}

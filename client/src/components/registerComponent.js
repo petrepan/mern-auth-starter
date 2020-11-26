@@ -53,7 +53,7 @@ const RegisterComponent = ({ history }) => {
     setEmail("");
     setUsername("");
     setPassword("");
-    history.push("/register");
+    history.push("/user/register");
   };
 
   function renderSwitch() {
@@ -111,21 +111,23 @@ const RegisterComponent = ({ history }) => {
               </div>
               <button type="submit">Signup {loading && <Loader />}</button>
             </form>
-            have an account? <Link to="/login">login</Link>
+            have an account? <Link to="/user/login">login</Link>
           </div>
         );
       case "resend":
         return (
           <div className="container">
-            {userResend && <div className="dbmsg">{userResend.error.message}</div>}
+            {userResend.error && (
+              <div className="dbmsg">{userResend.error.message}</div>
+            )}
             <p>A verification email has been sent.</p>
             <p>Check you mailbox : {email}.</p>
             <p>Activate your account to get full control of your account</p>
             <button onClick={resendEmail}>
               Did not receive the email? Click here to send again.
-              {loading && <Loader />}
             </button>{" "}
-            have an account? <Link to="/login">login</Link>
+            {loading && <Loader />}
+            have an account? <Link to="/user/login">login</Link>
           </div>
         );
 

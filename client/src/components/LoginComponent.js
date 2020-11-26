@@ -60,7 +60,7 @@ const LoginComponent = ({ history }) => {
         </div>
         <button type="submit">Login {loading && <Loader />}</button>
       </form>
-      No account yet? <Link to="/register">register</Link>
+      No account yet? <Link to="/user/register">register</Link>
     </div>
   );
 };

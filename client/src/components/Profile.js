@@ -11,12 +11,14 @@ const Profile = ({ match, history }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-    const { userInfo } = userLogin;
-    
-    console.log(userLogin)
-  
+  const { userInfo } = userLogin;
+
+   const userDetails = useSelector((state) => state.userDetails);
+    const { loading, error, user } = userDetails;
+    console.log(userDetails)
+
   const userUpdate = useSelector((state) => state.userUpdate);
-  const { loading, error } = userUpdate;
+  console.log(userUpdate)
 
   useEffect(() => {
     if (!userInfo) {
@@ -25,11 +27,13 @@ const Profile = ({ match, history }) => {
   }, [userInfo, history]);
 
   useEffect(() => {
-    dispatch(getuserdetails());
-  }, [dispatch, userInfo ]);
+    if (userInfo) {
+      dispatch(getuserdetails());
+    }
+  }, [dispatch, userInfo]);
 
   const onSubmit = () => {
-    dispatch(updateuser());
+    dispatch(updateuser(username, email, password));
   };
 
   return (
@@ -83,7 +87,8 @@ const Profile = ({ match, history }) => {
             <div className="validatemsg">{error.password}</div>
           )}
         </div>
-        <button type="submit">Signup {loading && <Loader />}</button>
+              <button type="submit" disabled={!user.isVerified}>Signup {loading && <Loader />}</button>
+              {!user.isVerifield && <p>Profile update is unavailable since account is unverified</p>}
       </form>
     </div>
   );

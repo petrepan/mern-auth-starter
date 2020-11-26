@@ -160,3 +160,9 @@ button{
   max-width: 300px;
   margin: auto;
 }
+
+
+button:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}

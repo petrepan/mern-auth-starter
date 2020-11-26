@@ -232,7 +232,7 @@ export const getuserdetails = () => async (dispatch, getState) => {
       },
     };
 
-    const res = await axios.get(`${URL}/api/user/profile`, config);
+      const res = await axios.get(`${URL}/api/user/profile`, config);
     dispatch({ type: types.USER_DETAILS_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -243,20 +243,24 @@ export const getuserdetails = () => async (dispatch, getState) => {
   }
 };
 
-export const updateuser = (username, email, password) => async (dispatch) => {
+export const updateuser = (username, email, password) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: types.USER_REGISTER_REQUEST,
+      type: types.USER_UPDATE_REQUEST,
     });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
-    const res = await axios.post(
-      `${URL}/api/user/register`,
+    const res = await axios.put(
+      `${URL}/api/user/profile`,
       {
         username,
         email,
@@ -265,10 +269,10 @@ export const updateuser = (username, email, password) => async (dispatch) => {
       config
     );
 
-    dispatch({ type: types.USER_REGISTER_SUCCESS, payload: res.data });
+    dispatch({ type: types.USER_UPDATE_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
-      type: types.USER_REGISTER_FAIL,
+      type: types.USER_UPDATE_FAIL,
       payload: error.response.data,
     });
     console.log(error.response.data);

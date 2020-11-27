@@ -26,7 +26,7 @@ const HomeComponent = ({history}) => {
       {userInfo && !userInfo.user.isVerified && (
         <p>
           This account is not yet activated <br />
-          Having trouble with activation? <br />
+          Reactivate and check your email <br />
           P.S: Your activities will be limited cos youve not been verified
           {loading && <Loader />}
           <button onClick={resendEmail}>Reactivate </button>

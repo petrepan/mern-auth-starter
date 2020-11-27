@@ -4,7 +4,9 @@ A MERN stack boilerplate with authentication and authorization functionality
 
 ## Features
 
-Checkout a live example here: [mern-auth-starter](mern-auth-starter.netlify.app/)
+The demo site is here: [mern-auth-starter](mern-auth-starter.netlify.app/)
+
+![screenshot of site](https://res.cloudinary.com/petrepan/image/upload/v1606486145/React-App_ilgvek.png)
 
 * Registration with email, username and password
 * Email verification

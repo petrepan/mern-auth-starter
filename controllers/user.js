@@ -13,6 +13,7 @@ const User = require("../models/user");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+//register a user and send verification email
 const register = async (req, res) => {
   const { errors, isValid } = validateInput(req.body);
 
@@ -64,6 +65,7 @@ const register = async (req, res) => {
   }
 };
 
+//resend email verification if unsuccessful
 const resend = async (req, res) => {
   const { errors, isValid } = validateEmail(req.body);
 
@@ -110,6 +112,8 @@ const resend = async (req, res) => {
   }
 };
 
+
+//if email verification failed again, delete user from register so as to re register
 const registerreset = async (req, res) => {
   const { errors, isValid } = validateEmail(req.body);
 
@@ -135,6 +139,7 @@ const registerreset = async (req, res) => {
   }
 };
 
+//activate a user by setting isVerified field as true
 const activate = async (req, res) => {
   const token = req.params.token;
   try {
@@ -199,6 +204,7 @@ const activate = async (req, res) => {
   }
 };
 
+//login
 const login = async (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
@@ -244,6 +250,7 @@ const login = async (req, res) => {
   }
 };
 
+//forgot password?, request for a new one and send password link to email
 const forgot = async (req, res) => {
   const { errors, isValid } = validateEmail(req.body);
 
@@ -291,6 +298,7 @@ const forgot = async (req, res) => {
   }
 };
 
+//new password
 const passwordreset = async (req, res) => {
   const { errors, isValid } = validatePassword(req.body);
 
@@ -331,6 +339,7 @@ const passwordreset = async (req, res) => {
   }
 };
 
+//get current user
 const getuser = async (req, res) => {
 
   try {

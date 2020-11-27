@@ -13,11 +13,11 @@ const NewPassword = ({ history, match }) => {
   const { loading, error, userInfo } = userForgot;
 
   useEffect(() => {
-    if (userInfo || localStorage.getItem("userInfo")) {
-      history.push("/user/login");
+    if (localStorage.getItem("userInfo")) {
+      history.push("/");
     }
   }, [userInfo, history]);
-  console.log(userInfo);
+
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(newpassword(password, token));

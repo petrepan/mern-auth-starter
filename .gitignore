@@ -12,13 +12,13 @@ node_modules/
 # production
 /frontend/build
 
-# misc
-.DS_Store
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# # misc
+# .DS_Store
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
 
 npm-debug.log*
 yarn-debug.log*

@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 module.exports = async (req, res, next) => {
   let token;
-
+  //set and get token on header
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")

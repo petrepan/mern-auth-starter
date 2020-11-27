@@ -4,17 +4,6 @@ import { resend } from "../actions/user";
 import Loader from "../components/Loader";
 
 const HomeComponent = () => {
-  const [hide, setHide] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setHide(hide);
-    }, 3000);
-
-    // return () => {
-    //     cleanup
-    // }
-  }, [hide]);
 
   const dispatch = useDispatch();
 
@@ -34,7 +23,7 @@ const HomeComponent = () => {
       {error && <div className="dbmsg">{error.message}</div>}
       {userInfo && !userInfo.user.isVerified && (
         <p>
-          This account is yet activated <br />
+          This account is not yet activated <br />
           Having trouble with activation? <br />
           P.S: Your activities will be limited cos youve not been verified
           {loading && <Loader />}

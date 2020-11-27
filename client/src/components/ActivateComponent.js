@@ -12,8 +12,8 @@ const ActivateComponent = ({ match, history }) => {
   const { loading, userInfo, error } = userActivation;
 
   useEffect(() => {
-    if (localStorage.getItem("userInfo")) {
-      history.push("/");
+    if (userInfo || localStorage.getItem("userInfo")) {
+      history.push("/user/login");
     }
   }, [userInfo, history]);
 

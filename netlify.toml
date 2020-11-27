@@ -1,5 +1,5 @@
 [build]
-  CI= npm run build
+  command = “CI= npm run build”
   publish="client/build"
   base = "client"
 

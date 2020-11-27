@@ -3,7 +3,7 @@
   publish="client/build"
   base = "client"
 
-  [[redirects]]
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

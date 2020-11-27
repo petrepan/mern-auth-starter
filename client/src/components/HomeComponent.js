@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resend } from "../actions/user";
 import Loader from "../components/Loader";
 
-const HomeComponent = () => {
+const HomeComponent = ({history}) => {
 
   const dispatch = useDispatch();
 
@@ -16,6 +16,7 @@ const HomeComponent = () => {
   const resendEmail = (e) => {
     e.preventDefault();
     dispatch(resend(userInfo.user.email));
+    history.push("/user/login")
   };
 
   return (

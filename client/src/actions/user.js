@@ -40,6 +40,8 @@ export const resend = (email) => async (dispatch) => {
       type: types.USER_RESEND_REQUEST,
     });
 
+    localStorage.removeItem("userInfo");
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -55,6 +57,7 @@ export const resend = (email) => async (dispatch) => {
     );
 
     dispatch({ type: types.USER_RESEND_SUCCESS, payload: res.data });
+    localStorage.setItem("success", JSON.stringify(res.data) )
   } catch (error) {
     dispatch({
       type: types.USER_RESEND_FAIL,

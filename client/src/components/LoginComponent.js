@@ -25,7 +25,7 @@ const LoginComponent = ({ history }) => {
     <div className="container">
       <h1>Log In</h1>
       {error && <div className="dbmsg">{error.message}</div>}
-      {userInfo && <div className="dbmsg">{userInfo.message}</div>}
+      {userInfo.message && <div className="dbmsg">{userInfo.message}</div>}
       <form onSubmit={onSubmit} className="form">
         <div className="field">
           <label htmlFor="user">Username or Email</label>

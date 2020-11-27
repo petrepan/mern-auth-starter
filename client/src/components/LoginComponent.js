@@ -59,6 +59,9 @@ const LoginComponent = ({ history }) => {
         </div>
         <button type="submit">Login {loading && <Loader />}</button>
       </form>
+      <p>
+        Forgotten password? <Link to="/forgot">recover</Link>
+      </p>
       No account yet? <Link to="/user/register">register</Link>
     </div>
   );

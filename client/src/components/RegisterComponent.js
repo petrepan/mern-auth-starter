@@ -72,7 +72,9 @@ const RegisterComponent = ({ history }) => {
                   type="text"
                   placeholder="Username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) =>
+                    setUsername(e.target.value.trim().toLowerCase())
+                  }
                   required
                 />
                 {error && error.username && (
@@ -87,7 +89,9 @@ const RegisterComponent = ({ history }) => {
                   type="email"
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) =>
+                    setEmail(e.target.value.trim().toLowerCase())
+                  }
                   required
                 />
                 {error && error.email && (

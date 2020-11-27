@@ -50,7 +50,7 @@ const Profile = ({ match, history }) => {
             type="text"
             placeholder="Username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value.trim().toLowerCase())}
             required
           />
           {error && error.username && (
@@ -65,7 +65,7 @@ const Profile = ({ match, history }) => {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
             required
           />
           {error && error.email && (
@@ -87,8 +87,12 @@ const Profile = ({ match, history }) => {
             <div className="validatemsg">{error.password}</div>
           )}
         </div>
-              <button type="submit" disabled={!user.isVerified}>Signup {loading && <Loader />}</button>
-              {!user.isVerifield && <p>Profile update is unavailable since account is unverified</p>}
+        <button type="submit" disabled={!user.isVerified}>
+          Signup {loading && <Loader />}
+        </button>
+        {!user.isVerified ? (
+          <p>Profile update is unavailable since your account is unverified</p>
+        ): ""}
       </form>
     </div>
   );

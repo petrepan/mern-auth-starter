@@ -18,7 +18,7 @@ const Navbar = () => {
   };
   return (
     <nav>
-      <Link to="/">Mern-Auth</Link>
+      <Link to="/">greeenapp</Link>
       <div>
         {!userInfo ? (
           <div>

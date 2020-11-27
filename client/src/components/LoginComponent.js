@@ -9,10 +9,8 @@ const LoginComponent = ({ history }) => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
-
   useEffect(() => {
     if (userInfo || localStorage.getItem("userInfo")) {
       history.push("/");
@@ -37,7 +35,7 @@ const LoginComponent = ({ history }) => {
             type="user"
             placeholder="Username or Email"
             value={user}
-            onChange={(e) => setUser(e.target.value)}
+            onChange={(e) => setUser(e.target.value.trim().toLowerCase())}
             required
           />
           {error && error.user && (

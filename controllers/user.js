@@ -47,7 +47,7 @@ const register = async (req, res) => {
       to: email,
       subject: "Account activation link",
       html: `  <h1 style="color:#fff; background-color:green; text-align:center;">User Verification</h1>
-                <h1>Please the link to activate your account</h1>
+                <h1>Please click the link to activate your account</h1>
                <a href="${process.env.CLIENT_URL}/user/activate/${token}">${process.env.CLIENT_URL}/user/activate/${token}</a>
             `,
     };
@@ -180,7 +180,14 @@ const activate = async (req, res) => {
 
               return res.status(200).json({
                 message: "The account has been verified successfully.",
-                user,
+                user: {
+                  isVerified: user.isVerified,
+                  _id: user._id,
+                  username: user.username,
+                  email: user.email,
+                  avatar: user.avatar,
+                  registered_date: user.registered_date,
+                },
               });
             });
           });
@@ -221,10 +228,16 @@ const login = async (req, res) => {
     }
 
     res.status(200).json({
-      success: true,
       message: "Login Successful",
       token,
-      user: finduser,
+      user: { 
+        isVerified: finduser.isVerified, 
+        _id: finduser._id,
+        username: finduser.username,
+        email: finduser.email,
+        avatar: finduser.avatar,
+        registered_date: finduser.registered_date
+      }
     });
   } catch (error) {
     return res.status(500).json({ message: error });

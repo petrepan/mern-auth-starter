@@ -20,7 +20,7 @@ const Navbar = () => {
     <nav>
       <Link to="/">greeenapp</Link>
       <div>
-        {!userInfo ? (
+        {!userInfo || !localStorage.getItem("userInfo") ? (
           <div>
             <Link to="/user/login">Login</Link>
             <Link to="/user/register">Register</Link>
@@ -28,7 +28,9 @@ const Navbar = () => {
         ) : (
           <div className="navlinks">
             welcome
-            <Link to={`/profile/${userInfo.user.username}`}>{userInfo.user.avatar}</Link>
+            <Link to={`/profile/${userInfo.user.username}`}>
+              {userInfo.user.avatar}
+            </Link>
             <button onClick={handleLogout}>Logout</button>
           </div>
         )}

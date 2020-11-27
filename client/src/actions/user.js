@@ -72,7 +72,7 @@ export const reset = (email) => async (dispatch) => {
     });
 
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("token");
+
     dispatch({ type: types.USER_LOGOUT });
 
     const config = {
@@ -212,7 +212,6 @@ export const newpassword = (password, token) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
-  localStorage.removeItem("token");
   dispatch({ type: types.USER_LOGOUT });
 };
 

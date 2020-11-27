@@ -21,6 +21,7 @@ const HomeComponent = () => {
   return (
     <div className="container">
       {error && <div className="dbmsg">{error.message}</div>}
+      {userInfo.message && <div className="dbmsg">{userInfo.message}</div>}
       {userInfo && !userInfo.user.isVerified && (
         <p>
           This account is not yet activated <br />

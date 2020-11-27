@@ -31,7 +31,6 @@ export const register = (username, email, password) => async (dispatch) => {
       type: types.USER_REGISTER_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };
 
@@ -61,7 +60,6 @@ export const resend = (email) => async (dispatch) => {
       type: types.USER_RESEND_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };
 
@@ -96,7 +94,6 @@ export const reset = (email) => async (dispatch) => {
       type: types.USER_REGISTER_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };
 
@@ -146,7 +143,6 @@ export const login = (user, password) => async (dispatch) => {
       type: types.USER_LOGIN_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };
 
@@ -176,7 +172,6 @@ export const forgot = (email) => async (dispatch) => {
       type: types.USER_PASSWORD_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };
 
@@ -206,7 +201,6 @@ export const newpassword = (password, token) => async (dispatch) => {
       type: types.USER_PASSWORD_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };
 
@@ -274,6 +268,5 @@ export const updateuser = (username, email, password) => async (dispatch, getSta
       type: types.USER_UPDATE_FAIL,
       payload: error.response.data,
     });
-    console.log(error.response.data);
   }
 };

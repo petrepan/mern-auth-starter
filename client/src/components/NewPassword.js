@@ -14,7 +14,7 @@ const NewPassword = ({ history, match }) => {
 
   useEffect(() => {
     if (userInfo || localStorage.getItem("userInfo")) {
-      history.push("/:username");
+      history.push("/user/login");
     }
   }, [userInfo, history]);
   console.log(userInfo);

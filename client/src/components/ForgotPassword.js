@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { forgot } from "../actions/user";
 import Loader from "./Loader";
@@ -11,11 +11,6 @@ const ForgotPassword = ({ history }) => {
   const userForgot = useSelector((state) => state.userForgot);
   const { loading, error, userInfo } = userForgot;
 
-  useEffect(() => {
-    if (userInfo || localStorage.getItem("userInfo")) {
-      history.push("/");
-    }
-  }, [userInfo, history]);
   console.log(userInfo);
   const onSubmit = (e) => {
     e.preventDefault();
